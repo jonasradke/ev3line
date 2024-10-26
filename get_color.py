@@ -16,7 +16,7 @@ while True:
     
     # Clear the screen before updating
     ev3.screen.clear()
-    ev3.screen.print(rgb[0],rgb[2])
+    ev3.screen.print(rgb[0],rgb[1],rgb[2])
     # Display the RGB values on the EV3 screen
 
     # Wait a bit before the next reading to make the output readable
