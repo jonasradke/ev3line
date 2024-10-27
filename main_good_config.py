@@ -17,14 +17,12 @@ right_motor = Motor(Port.C)  # Right wheel motor
 color_sensor = ColorSensor(Port.S2)
 
 # Initialize the drive base
-wheel_diameter = 56  # Diameter of the wheels in mm
-axle_track = 114     # Distance between the wheels in mm
-robot = DriveBase(left_motor, right_motor, wheel_diameter, axle_track)
+robot = DriveBase(left_motor, right_motor, 56, 114)
 
 # PID tuning parameters
 gain = 8               # Proportional gain
 derivative_gain = 4    # Derivative gain
-integral_gain = 0.1    # Integral gain (small value to avoid overshoot)
+integral_gain = 0.1    # Integral gain
 
 # Moving average window size for sensor smoothing
 smoothing_window = 5
