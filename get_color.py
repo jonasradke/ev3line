@@ -8,7 +8,6 @@ from pybricks.hubs import EV3Brick
 # Initialize the EV3 brick and color sensor
 ev3 = EV3Brick()
 color_sensor = ColorSensor(Port.S2)  # Make sure your color sensor is connected to Port S3
-ev3.light.off()
 
 while True:
     # Read the RGB values from the color sensor
