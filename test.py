@@ -58,7 +58,7 @@ while True:
         integral = 0
         blue_detected = True  # Set flag to prevent multiple triggers
 
-    if (abs(current_rgb[0] < 10) and 
+    if (abs(current_rgb[0] < 10) and
         abs(current_rgb[1] < 15) and 
         abs(current_rgb[2] > 30)) and not blue_detected2:
         # If the color is close enough to blue, perform actions like moving forward and turning
