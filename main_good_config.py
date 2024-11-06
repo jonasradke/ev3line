@@ -1,7 +1,8 @@
 #!/usr/bin/env pybricks-micropython
+#Config with sensor 2cm above ground. Using trick to read both sides of line
 
 from pybricks.hubs import EV3Brick
-from pybricks.parameters import Port
+from pybricks.parameters import Port, Color
 from pybricks.ev3devices import Motor, ColorSensor
 from pybricks.tools import wait
 from pybricks.robotics import DriveBase
@@ -21,8 +22,8 @@ robot = DriveBase(left_motor, right_motor, 56, 114)
 
 # PID tuning parameters
 gain = 8               # Proportional gain
-derivative_gain = 4    # Derivative gain
-integral_gain = 0.1    # Integral gain
+derivative_gain =6    # Derivative gain
+integral_gain = 0.01    # Integral gain
 
 # Moving average window size for sensor smoothing
 smoothing_window = 5
@@ -74,14 +75,8 @@ while True:
         (integral_error * integral_gain)
     )
 
-    # Decelerate in corners based on turn rate
-    if abs(turn_rate) > 30:  # Threshold for sharp turns
-        drive_speed = max(20, 100 - abs(turn_rate) * 0.5)  # Lower minimum speed
-    else:
-        drive_speed = max(30, 100 - abs(turn_rate) * 0.9)
-
     # Drive forward with the calculated turn rate and adjusted speed
-    robot.drive(drive_speed, turn_rate)
+    robot.drive(100, turn_rate)
 
     # Update previous error for the next loop iteration
     previous_error = proportional_error
