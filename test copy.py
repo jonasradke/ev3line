@@ -53,8 +53,8 @@ block_detected = False
 
 # Start following the line endlessly.
 while True:
-
-    ev3.screen.print(stopwatch)
+    ev3.screen.clear()
+    ev3.screen.print(stopwatch.time())
 
 
     # Get the current RGB value from the sensor

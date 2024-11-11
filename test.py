@@ -18,7 +18,7 @@ ev3 = EV3Brick()
 
 # Initialize the sensors.
 line_sensor = ColorSensor(Port.S2)
-#ir_sensor = InfraredSensor(Port.S1)
+ir_sensor = InfraredSensor(Port.S1)
 
 
 
@@ -77,7 +77,7 @@ while True:
     #detect red and drop the object
     if (abs(current_rgb[0] > 27) and 
         abs(current_rgb[1] < 13) and 
-        abs(current_rgb[2] < 20)) and blue_detected:
+        abs(current_rgb[2] < 20)) and blue_detected and block_detected:
             print("red detected")
             drop_motor.run_angle(1000, 160, then=Stop.HOLD, wait=False) 
             
@@ -93,10 +93,10 @@ while True:
             
 
 
-    '''if (ir_sensor.proximity < 30) and not block_detected: #noah
+    if (ir_sensor.proximity < 30) and not block_detected: 
         # If the Block is near the robot, prints out a message
-        sound.speak('Hindernis erkannt')
-        block_detected = True'''
+        print("block detected")
+        block_detected = True
 
     # Get the current light reflection and calculate the deviation from the threshold.
     light_value = line_sensor.reflection()
