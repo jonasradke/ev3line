@@ -4,8 +4,10 @@ from pybricks.ev3devices import Motor, ColorSensor, InfraredSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Port, Color
 from pybricks.robotics import DriveBase, Stop
-from pybricks.tools import wait
+from pybricks.tools import wait, StopWatch 
 
+# Initialize the stopwatch
+stopwatch = StopWatch()
 
 
 # Initialize the motors.
@@ -27,7 +29,7 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=104)
 
 # Calculate the light threshold.
 BLACK = 6
-WHITE = 42
+WHITE = 46
 threshold = (BLACK + WHITE) / 2
 
 # Set the drive speed.
@@ -51,6 +53,10 @@ block_detected = False
 
 # Start following the line endlessly.
 while True:
+
+    ev3.screen.print(stopwatch)
+
+
     # Get the current RGB value from the sensor
     current_rgb = line_sensor.rgb()
 
@@ -70,7 +76,7 @@ while True:
         abs(current_rgb[1] < 15) and 
         abs(current_rgb[2] > 30)) and not blue_detected2:
             print("blue detected")
-            robot.straight(50)
+            robot.straight(100)
             blue_detected2 = True
 
 
@@ -79,7 +85,7 @@ while True:
         abs(current_rgb[1] < 13) and 
         abs(current_rgb[2] < 20)) and blue_detected:
             print("red detected")
-            drop_motor.run_angle(1000, 160, then=Stop.HOLD, wait=False) 
+            drop_motor.run_angle(1000, 180, then=Stop.HOLD, wait=False) 
             
         
     #detect green and do stuff
@@ -88,15 +94,15 @@ while True:
         abs(current_rgb[2] < 20)):
             print("green detected")
             robot.straight(50)
-            drop_motor.run_angle(1000, -160, then=Stop.HOLD, wait=False) 
+            drop_motor.run_angle(1000, -180, then=Stop.HOLD, wait=False) 
             blue_detected2 = False
             
 
 
-    '''if (ir_sensor.proximity < 30) and not block_detected: #noah
+    #if (ir_sensor.proximity < 30) and not block_detected: #noah
         # If the Block is near the robot, prints out a message
-        sound.speak('Hindernis erkannt')
-        block_detected = True'''
+        #sound.speak('Hindernis erkannt')
+        #block_detected = True
 
     # Get the current light reflection and calculate the deviation from the threshold.
     light_value = line_sensor.reflection()
@@ -110,7 +116,7 @@ while True:
     turn_rate = (PROPORTIONAL_GAIN * error) + (INTEGRAL_GAIN * integral) + (DERIVATIVE_GAIN * derivative)
 
     # Set the drive base speed and turn rate.
-    robot.drive(DRIVE_SPEED, turn_rate)
+    #robot.drive(DRIVE_SPEED, turn_rate)
 
     # Update the last error for the next loop iteration
     last_error = error
