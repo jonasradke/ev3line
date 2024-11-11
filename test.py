@@ -87,7 +87,7 @@ while True:
         abs(current_rgb[2] < 20)):
             print("green detected")
             robot.straight(50)
-            drop_motor.run_angle(1000, -160, then=Stop.HOLD, wait=False) 
+            drop_motor.run_angle(1000, -170, then=Stop.HOLD, wait=False) 
             blue_detected2 = False
             
 
