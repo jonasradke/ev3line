@@ -1,6 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 
-from pybricks.ev3devices import Motor, ColorSensor, InfraredSensor
+from pybricks.ev3devices import Motor, ColorSensor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Port, Color
 from pybricks.robotics import DriveBase, Stop
@@ -11,14 +11,14 @@ from pybricks.tools import wait
 # Initialize the motors.
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
-drop_motor = Motor(Port.A)
+drop_motor = Motor(Port.D)
 
 # Initialize the EV3 brick.
 ev3 = EV3Brick()
 
 # Initialize the sensors.
 line_sensor = ColorSensor(Port.S2)
-ir_sensor = InfraredSensor(Port.S1)
+us_sensor = UltrasonicSensor(Port.S1)
 
 
 
@@ -70,7 +70,6 @@ while True:
         abs(current_rgb[1] < 15) and 
         abs(current_rgb[2] > 30)) and not blue_detected2:
             print("blue detected")
-            robot.straight(50)
             blue_detected2 = True
 
 
@@ -93,7 +92,7 @@ while True:
             
 
 
-    if (ir_sensor.proximity < 30) and not block_detected: 
+    if (us_sensor.distance() < 200) and not block_detected: 
         # If the Block is near the robot, prints out a message
         print("block detected")
         block_detected = True
