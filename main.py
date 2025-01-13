@@ -153,11 +153,11 @@ while True:
         current_time = time()  # Get the current time
         if current_time - last_green_detect_time > GREEN_COOLDOWN:  # Check cooldown
             lap += 1
-            if lap < 3:
+            if lap < 4:
                 sound_thread = Thread(target=speaker, args=(str(lap),))
                 sound_thread.start()
                 last_green_detect_time = current_time  # Update the last detection time
-            elif lap == 3:
+            elif lap == 4:
                 stopwatch.pause()
                 sound_thread = Thread(target=speaker, args=("gj",))
                 sound_thread.start()
@@ -169,7 +169,7 @@ while True:
         print("block detected")
         block_detected = True
             
-    if  (lap == 3 and
+    if  (lap == 4 and
         abs(current_rgb[0] < 10) and 
         abs(current_rgb[1] < 18) and 
         abs(current_rgb[2] > 23)):
@@ -179,7 +179,7 @@ while True:
         integral = 0
         last_error = 0
 
-    if (lap == 3 and
+    if (lap == 4 and
         abs(current_rgb[0] > 27) and 
         abs(current_rgb[1] < 13) and 
         abs(current_rgb[2] < 20)):
