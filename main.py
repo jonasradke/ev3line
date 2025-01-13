@@ -30,7 +30,7 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=104)
 
 # Calculate the light threshold.
 BLACK = 6
-WHITE = 46
+WHITE = 40
 threshold = (BLACK + WHITE) / 2
 
 # Set the drive speed.
@@ -84,6 +84,18 @@ wait(1000)
 # Reset the stopwatch
 stopwatch = StopWatch()
 
+def reducedSensitivty():
+    global PROPORTIONAL_GAIN
+    global INTEGRAL_GAIN
+    global DERIVATIVE_GAIN
+    PROPORTIONAL_GAIN = 1
+    INTEGRAL_GAIN = 0.1
+    DERIVATIVE_GAIN = 0.5
+    wait(2000)
+    PROPORTIONAL_GAIN = 2.1
+    INTEGRAL_GAIN = 0.4
+    DERIVATIVE_GAIN = 1
+
 # Start following the line endlessly.
 while True:
    
@@ -111,13 +123,14 @@ while True:
     #detect blue
     if  (lap == 1 and not blue_detected and
         abs(current_rgb[0] < 10) and 
-        abs(current_rgb[1] < 15) and 
-        abs(current_rgb[2] > 22)):
+        abs(current_rgb[1] < 18) and 
+        abs(current_rgb[2] > 23)):
         # If the color is close enough to blue, perform actions like moving forward and turning
         blue_detected = True
-        robot.straight(20)
-        robot.turn(30)
+        robot.straight(30)
+        robot.turn(45)
         integral = 0
+        last_error = 0
 
 
     #detect red and drop the object
@@ -127,6 +140,10 @@ while True:
         abs(current_rgb[2] < 20)) and block_detected:
             print("red detected")
             drop_motor.run_angle(1000, 100, then=Stop.HOLD, wait=False)
+            robot.stop()
+            wait(2000)
+            sens_thread = Thread(target=reducedSensitivty)
+            sens_thread.start() 
 
     # Detect green and count laps with cooldown
     if (abs(current_rgb[0] < 14) and
@@ -148,18 +165,19 @@ while True:
                     
 
     if (lap == 1 and
-        us_sensor.distance() < 200) and not block_detected: 
+        us_sensor.distance() < 400) and not block_detected: 
         print("block detected")
         block_detected = True
             
     if  (lap == 3 and
         abs(current_rgb[0] < 10) and 
-        abs(current_rgb[1] < 15) and 
-        abs(current_rgb[2] > 22)):
+        abs(current_rgb[1] < 18) and 
+        abs(current_rgb[2] > 23)):
         # If the color is close enough to blue, perform actions like moving forward and turning
-        robot.straight(20)
-        robot.turn(30)
+        robot.straight(30)
+        robot.turn(45)
         integral = 0
+        last_error = 0
 
     if (lap == 3 and
         abs(current_rgb[0] > 27) and 
@@ -167,7 +185,10 @@ while True:
         abs(current_rgb[2] < 20)):
             robot.stop()
             sound_thread = Thread(target=speaker, args=("gj",))
+            drop_motor.run_angle(1000, -100, then=Stop.HOLD, wait=False)
             sound_thread.start()
+            robot.settings(100, 100, 300, 300)
+            robot.turn(900)
             while not ev3.buttons.pressed():
                 wait(10)
             

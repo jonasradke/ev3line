@@ -8,7 +8,7 @@ from pybricks.tools import wait
 ev3 = EV3Brick()
 
 # Initialize the sensors. test
-ir_sensor = UltrasonicSensor(Port.S1)
+ir_sensor = UltrasonicSensor(Port.S3)
 
 
 
